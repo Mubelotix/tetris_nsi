@@ -1,10 +1,10 @@
-def display_slab(window, slab_color_number, x, y):
+def display_slab(window, textures, slab_color_number, x, y):
     """
     Draw a single square on the window. Coords 0;0 is the square to the top left.
     """
     pass
 
-def display_grid(window, grid):
+def display_grid(window, textures, grid):
     """
     Draw every squares of the grid to the window.
     """
@@ -41,3 +41,24 @@ def load_textures():
     purple = pygame.image.load("textures/purple_square.png")
     orange = pygame.image.load("textures/orange_square.png")
     return [red, blue, green, yellow, cyan, purple, orange]
+
+print("Loading texture")
+textures = load_textures()
+
+print("Creating window")
+import pygame
+pygame.init()
+window = pygame.display.set_mode((50*10+50*7, 50*20))
+
+print("Starting loop")
+ingame = True
+while ingame:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            ingame = 0
+
+    window.blit(textures[0], (0, 0))
+    pygame.display.flip()
+
+print("Exiting")
+pygame.quit()

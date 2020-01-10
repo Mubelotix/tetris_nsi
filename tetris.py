@@ -27,3 +27,17 @@ def move_squares(grid, squares, direction):
     THE MOVE MUST BE POSSIBLE, NO CHECK IN THIS FUNCTION.
     """
     pass
+
+def load_textures():
+    """
+    Return an array of 7 colored block textures.
+    """
+    import pygame;
+    red = pygame.image.load("textures/red_square.png")
+    blue = pygame.image.load("textures/blue_square.png")
+    green = pygame.image.load("textures/green_square.png")
+    yellow = pygame.image.load("textures/yellow_square.png")
+    cyan = pygame.image.load("textures/cyan_square.png")
+    purple = pygame.image.load("textures/purple_square.png")
+    orange = pygame.image.load("textures/orange_square.png")
+    return [red, blue, green, yellow, cyan, purple, orange]

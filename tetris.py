@@ -1,15 +1,26 @@
-def display_slab(window, textures, slab_color_number, x, y):
+def display_square(window, textures, square_color_number, x, y):
     """
     Draw a single square on the window. Coords 0;0 is the square to the top left.
+    Square colors:
+        0 => red,
+        1 => blue,
+        2 => green,
+        3 => yellow,
+        4 => cyan,
+        5 => purple,
+        6 => orange,
+        7 => empty
     """
-    pass
+    if square_color_number < 7 and square_color_number > 0:
+        window.blit(textures[square_color_number], (50+x*50, y*50))
 
 def display_grid(window, textures, grid):
     """
     Draw every squares of the grid to the window.
     """
-    # Utiliser la fonction display_slab()
-    pass
+    for x in range(10):
+        for y in range(20):
+            display_square(window, textures, grid[x][y], x, y)
 
 def can_squares_move(grid, squares, direction):
     """
@@ -44,6 +55,28 @@ def load_textures():
 
 print("Loading texture")
 textures = load_textures()
+grid = [
+    [7,7,7,7,7,7,7,7,7,7],
+    [7,7,7,7,7,7,7,7,7,7],
+    [7,7,7,7,7,7,7,7,7,7],
+    [7,7,7,7,7,7,7,7,7,7],
+    [7,7,7,7,7,7,7,7,7,7],
+    [7,7,7,7,7,7,7,7,7,7],
+    [7,7,7,7,7,7,7,7,7,7],
+    [7,7,7,7,7,7,7,7,7,7],
+    [7,7,7,7,7,7,7,7,7,7],
+    [7,7,7,7,7,7,7,7,7,7],
+    [7,7,7,7,7,7,7,7,7,7],
+    [7,7,7,7,7,7,7,7,7,7],
+    [7,7,7,7,7,7,7,7,7,7],
+    [7,7,7,7,7,7,7,7,7,7],
+    [7,7,7,7,7,7,7,7,7,7],
+    [7,7,7,7,7,7,7,7,7,7],
+    [7,7,7,7,7,7,7,7,7,7],
+    [7,7,7,7,7,7,7,7,7,7],
+    [7,7,7,7,7,7,7,7,7,7],
+    [7,7,7,7,7,7,7,7,7,7]
+]
 
 print("Creating window")
 import pygame
@@ -57,7 +90,7 @@ while ingame:
         if event.type == pygame.QUIT:
             ingame = 0
 
-    window.blit(textures[0], (0, 0))
+    display_grid(window, textures, grid)
     pygame.display.flip()
 
 print("Exiting")

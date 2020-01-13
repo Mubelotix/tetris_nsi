@@ -50,7 +50,7 @@ class Square:
                 if grid[self.x - 1][self.y].get_color() == 7:
                     return True
         else:
-            if self.x < 19:
+            if self.x < 9:
                 if grid[self.x + 1][self.y].get_color() == 7:
                     return True
         return False
@@ -62,6 +62,10 @@ class Square:
             self.x -= 1
         else:
             self.x += 1
+
+    def put_on_grid(self, grid):
+        grid[self.x][self.y] = self
+        return grid
 
 
 def display_grid(window, textures, grid):
@@ -93,6 +97,11 @@ def move_squares(squares, direction):
     for square in squares:
         square.move(direction)
     return squares
+
+def put_squares_on_grid(grid, squares):
+    for square in squares:
+        grid = square.put_on_grid(grid)
+
 
 def display_squares(window, textures, squares):
     for square in squares:
@@ -143,6 +152,17 @@ while ingame:
         timer = now
         if can_squares_move(grid, falling, 1):
             move_squares(falling, 1)
+        else:
+            put_squares_on_grid(grid, falling)
+            falling = [Square(5, 5, 5), Square(5, 6, 5)]
+
+    keys=pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:
+        if can_squares_move(grid, falling, 2):
+            move_squares(falling, 2)
+    if keys[pygame.K_RIGHT]:
+        if can_squares_move(grid, falling, 3):
+            move_squares(falling, 3)
 
     window.fill((0,0,0))
     display_grid(window, textures, grid)

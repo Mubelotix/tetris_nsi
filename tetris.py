@@ -41,7 +41,7 @@ def move_squares(grid, squares, direction):
 
 def load_textures():
     """
-    Return an array of 7 colored block textures.
+    Return an array of 7 colored block textures + 1 background.
     """
     import pygame;
     red = pygame.image.load("textures/red_square.png")
@@ -51,7 +51,8 @@ def load_textures():
     cyan = pygame.image.load("textures/cyan_square.png")
     purple = pygame.image.load("textures/purple_square.png")
     orange = pygame.image.load("textures/orange_square.png")
-    return [red, blue, green, yellow, cyan, purple, orange]
+    background = pygame.image.load("textures/background.png")
+    return [red, blue, green, yellow, cyan, purple, orange, background]
 
 print("Loading texture")
 textures = load_textures()
@@ -81,6 +82,7 @@ while ingame:
             ingame = 0
 
     display_grid(window, textures, grid)
+    window.blit(textures[7], (0,0))
     pygame.display.flip()
 
 print("Exiting")

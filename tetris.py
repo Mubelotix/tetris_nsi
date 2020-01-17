@@ -137,15 +137,27 @@ for x in range(10):
 
 print("Creating window")
 import pygame
+import time
 pygame.init()
 window = pygame.display.set_mode((50*10+50*7, 50*20))
 
 print("Starting loop")
 ingame = True
+last_move_date=time.time()
 while ingame:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             ingame = 0
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                if can_squares_move(grid, falling, 2):
+                    move_squares(falling, 2)
+            if event.key == pygame.K_RIGHT:
+                if can_squares_move(grid, falling, 3):
+                    move_squares(falling, 3)
+            if event.key == pygame.K_DOWN:
+                if can_squares_move(grid, falling, 1):
+                    move_squares(falling, 1)
 
     now = time.time()
     if now - timer > 1:
@@ -156,17 +168,9 @@ while ingame:
             put_squares_on_grid(grid, falling)
             falling = [Square(5, 5, 5), Square(5, 6, 5)]
 
-    keys=pygame.key.get_pressed()
-    if keys[pygame.K_LEFT]:
-        if can_squares_move(grid, falling, 2):
-            move_squares(falling, 2)
-    if keys[pygame.K_RIGHT]:
-        if can_squares_move(grid, falling, 3):
-            move_squares(falling, 3)
-
     window.fill((0,0,0))
-    display_grid(window, textures, grid)
     window.blit(textures[7], (0,0))
+    display_grid(window, textures, grid)
     display_squares(window, textures, falling)
     pygame.display.flip()
 

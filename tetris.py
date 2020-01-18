@@ -89,7 +89,45 @@ def generate_square():
 
     elif choice == 6:
         return [Square(choice, 5, 0), Square(choice, 5, 1), Square(choice, 4, 1), Square(choice, 3, 1)]
-   
+
+def turn_squares(squares):
+    xmin = 10
+    xmax = 0
+    ymin = 20
+    ymax = 0
+
+    for square in squares:
+        if square.x < xmin:
+            xmin = square.x
+        if square.y < ymin:
+            ymin = square.y
+        if square.x > xmax:
+            xmax = square.x
+        if square.y > ymax:
+            ymax = square.y
+
+    array2d = []
+    for x in range(xmax - xmin + 1):
+        temp = []
+        for y in range(ymax - ymin + 1):
+            v = 7
+            for square in squares:
+                if square.x - xmin == x and square.y - ymin == y:
+                    v = square.color_number
+            temp.append(v)
+        array2d.append(temp)
+
+    array2d = list(zip(*array2d[::-1]))
+
+    array = []
+
+    for x in range(ymax - ymin + 1):
+        for y in range(xmax - xmin + 1):
+            array.append(Square(array2d[x][y], x+xmin, y+ymin))
+
+    return array
+    
+
 def load_textures():
     """
     Return an array of 7 colored block textures + 1 background.
@@ -110,7 +148,7 @@ import time
 print("Loading texture")
 textures = load_textures()
 grid = []
-falling = generate_square()
+falling = turn_squares(generate_square())
 timer = time.time()
 for x in range(10):
     temp = []
@@ -135,6 +173,8 @@ while ingame:
             if event.key == pygame.K_LEFT:
                 if can_squares_move(grid, falling, 2):
                     move_squares(falling, 2)
+            if event.key == pygame.K_UP:
+                falling = turn_squares(falling)
             if event.key == pygame.K_RIGHT:
                 if can_squares_move(grid, falling, 3):
                     move_squares(falling, 3)

@@ -27,7 +27,7 @@
         """
         Display the square.
         """
-        if self.color_number < 7 and self.color_number > 0:
+        if self.color_number < 7 and self.color_number >= 0:
             window.blit(textures[self.color_number], (50+self.x*50, self.y*50))
 
     def get_color(self):

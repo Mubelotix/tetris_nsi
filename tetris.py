@@ -22,7 +22,7 @@ def can_squares_move(grid, squares, direction):
 def move_squares(squares, direction):
     """
     Take the grid, an array of squares and a direction number.
-    Direction is number 1 for down, 2 for for left and 3 for right.
+    Direction is number 0 for no movement, 1 for down, 2 for for left and 3 for right.
     Squares will be moved in the array, the actualised array will be returned.
     THE MOVE MUST BE POSSIBLE, NO CHECK IN THIS FUNCTION.
     """
@@ -174,7 +174,9 @@ while ingame:
                 if can_squares_move(grid, falling, 2):
                     move_squares(falling, 2)
             if event.key == pygame.K_UP:
-                falling = rotate_squares(falling)
+                rotated = rotate_squares(falling)
+                if can_squares_move(grid, rotated, 0):
+                    falling = rotated
             if event.key == pygame.K_RIGHT:
                 if can_squares_move(grid, falling, 3):
                     move_squares(falling, 3)

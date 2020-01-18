@@ -40,11 +40,16 @@
         """
         Return true if the square can move in a direction.
         Direction:
+            0 => No movement,
             1 => Down,
             2 => Left,
             _ => Right
         """
-        if direction == 1:
+        if direction == 0:
+            if self.x >= 0 and self.x < 10 and self.y >= 0 and self.y < 20:
+                if grid[self.x][self.y + 1].get_color() == 7:
+                    return True
+        elif direction == 1:
             if self.y < 19:
                 if grid[self.x][self.y + 1].get_color() == 7:
                     return True

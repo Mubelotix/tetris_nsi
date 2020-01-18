@@ -38,7 +38,55 @@ def put_squares_on_grid(grid, squares):
 def display_squares(window, textures, squares):
     for square in squares:
         square.display(window, textures)
+def generate_square():
+    """
+    randomly generate a piece from the list below:
 
+    0 = Red     [][]
+                  [][]
+
+    1 = Blue    []
+                [][][]
+
+    2 = Green     [][]
+                [][]
+
+    3 = Yellow  [][]
+                [][]
+
+    4 = Cyan    [][][][]
+
+
+    5 = Purple    []
+                [][][]
+
+    6 = Orange      []
+                [][][]
+
+    """
+    choice = randint(0,6)
+
+    if choice == 0:
+       return [Square(choice, 4, 0), Square(choice, 5, 0), Square(choice, 5, 1), Square(choice, 6, 1)]
+
+    elif choice == 1:
+        return [Square(choice, 4, 0), Square(choice, 4, 1), Square(choice, 5, 1), Square(choice, 6, 1)]
+
+    elif choice == 2:
+        return [Square(choice, 6, 0), Square(choice, 5, 0), Square(choice, 5, 1), Square(choice, 4, 1)]
+
+    elif choice == 3:
+        return [Square(choice, 4, 0), Square(choice, 5, 0), Square(choice, 5, 1), Square(choice, 4, 1)]
+
+    elif choice == 4:
+        return [Square(choice, 6, 0), Square(choice, 5, 0), Square(choice, 4, 0), Square(choice, 3, 0)]
+
+    elif choice == 5:
+        return [Square(choice, 5, 0), Square(choice, 6, 1), Square(choice, 5, 1), Square(choice, 4, 1)]
+
+    elif choice == 6:
+        return [Square(choice, 5, 0), Square(choice, 5, 1), Square(choice, 4, 1), Square(choice, 3, 1)]
+   
 def load_textures():
     """
     Return an array of 7 colored block textures + 1 background.

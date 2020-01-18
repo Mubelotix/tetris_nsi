@@ -23,6 +23,9 @@
         self.x = x
         self.y = y
 
+    def __repr__(self):
+        return "(" + str(self.color_number) + ", " + str(self.x) + ", " + str(self.y) + ")"
+
     def display(self, window, textures):
         """
         Display the square.

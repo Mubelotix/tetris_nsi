@@ -38,9 +38,10 @@ def put_squares_on_grid(grid, squares):
 def display_squares(window, textures, squares):
     for square in squares:
         square.display(window, textures)
+
 def generate_square():
     """
-    randomly generate a piece from the list below:
+    Randomly generate a piece from the list below:
 
     0 = Red     [][]
                   [][]
@@ -64,7 +65,9 @@ def generate_square():
                 [][][]
 
     """
-    choice = randint(0,6)
+    from random import randrange 
+
+    choice = randrange(0,6)
 
     if choice == 0:
        return [Square(choice, 4, 0), Square(choice, 5, 0), Square(choice, 5, 1), Square(choice, 6, 1)]
@@ -107,7 +110,7 @@ import time
 print("Loading texture")
 textures = load_textures()
 grid = []
-falling = [Square(5, 5, 5), Square(5, 6, 5)]
+falling = generate_square()
 timer = time.time()
 for x in range(10):
     temp = []
@@ -146,7 +149,7 @@ while ingame:
             move_squares(falling, 1)
         else:
             put_squares_on_grid(grid, falling)
-            falling = [Square(5, 5, 5), Square(5, 6, 5)]
+            falling = generate_square()
 
     window.fill((0,0,0))
     window.blit(textures[7], (0,0))

@@ -33,7 +33,7 @@ def move_squares(squares, direction):
 def put_squares_on_grid(grid, squares):
     for square in squares:
         grid = square.put_on_grid(grid)
-
+    return grid
 
 def display_squares(window, textures, squares):
     for square in squares:
@@ -90,7 +90,7 @@ def generate_square():
     elif choice == 6:
         return [Square(choice, 5, 0), Square(choice, 5, 1), Square(choice, 4, 1), Square(choice, 3, 1)]
 
-def turn_squares(squares):
+def rotate_squares(squares):
     xmin = 10
     xmax = 0
     ymin = 20
@@ -119,14 +119,14 @@ def turn_squares(squares):
 
     array2d = list(zip(*array2d[::-1]))
 
-    array = []
+    array2 = []
 
     for x in range(ymax - ymin + 1):
         for y in range(xmax - xmin + 1):
-            array.append(Square(array2d[x][y], x+xmin, y+ymin))
+            if array2d[x][y] != 7:
+                array2.append(Square(array2d[x][y], x+xmin, y+ymin))
 
-    return array
-    
+    return array2
 
 def load_textures():
     """
@@ -148,7 +148,7 @@ import time
 print("Loading texture")
 textures = load_textures()
 grid = []
-falling = turn_squares(generate_square())
+falling = generate_square()
 timer = time.time()
 for x in range(10):
     temp = []
@@ -174,7 +174,7 @@ while ingame:
                 if can_squares_move(grid, falling, 2):
                     move_squares(falling, 2)
             if event.key == pygame.K_UP:
-                falling = turn_squares(falling)
+                falling = rotate_squares(falling)
             if event.key == pygame.K_RIGHT:
                 if can_squares_move(grid, falling, 3):
                     move_squares(falling, 3)
@@ -188,7 +188,7 @@ while ingame:
         if can_squares_move(grid, falling, 1):
             move_squares(falling, 1)
         else:
-            put_squares_on_grid(grid, falling)
+            grid = put_squares_on_grid(grid, falling)
             falling = generate_square()
 
     window.fill((0,0,0))

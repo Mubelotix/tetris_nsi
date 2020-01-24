@@ -149,7 +149,7 @@ def load_textures():
 
 def delete_completed_lines(grid):
     """
-    Delete completed lines on the grid.
+    Delete completed lines on the grid, return the grid and the number of deleted lines.
     """
 
     total_line_values = []
@@ -174,13 +174,15 @@ def delete_completed_lines(grid):
             for i in range(go_down_numbers[y]):
                 grid[x][y].move(1)
 
+    number = 0
     for y in range(20):
         if total_line_values[y]:
+            number += 1
             for x in range(10):
                 grid[x].pop(y)
                 grid[x].insert(0, Square(8,x,0))
 
-    return grid
+    return (grid, number)
 
 import time
 
@@ -234,7 +236,7 @@ while ingame:
             grid = put_squares_on_grid(grid, falling)
             falling = generate_square()
 
-    grid = delete_completed_lines(grid)
+    (grid, number_of_deleted_lines) = delete_completed_lines(grid)
 
     window.fill((0,0,0))
     window.blit(textures[8], (0,0))

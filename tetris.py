@@ -67,7 +67,7 @@ def generate_square():
     """
     from random import randrange
 
-    choice = randrange(0,6)
+    choice = randrange(0,8)
 
     if choice == 0:
        return [Square(choice, 4, 0), Square(choice, 5, 0), Square(choice, 5, 1), Square(choice, 6, 1)]
@@ -90,6 +90,9 @@ def generate_square():
     elif choice == 6:
         return [Square(choice, 5, 0), Square(choice, 5, 1), Square(choice, 4, 1), Square(choice, 3, 1)]
 
+    elif choice == 7:
+        return [Square(choice, 5,0)]
+
 def rotate_squares(squares):
     xmin = 10
     xmax = 0
@@ -110,7 +113,7 @@ def rotate_squares(squares):
     for x in range(xmax - xmin + 1):
         temp = []
         for y in range(ymax - ymin + 1):
-            v = 7
+            v = 8
             for square in squares:
                 if square.x - xmin == x and square.y - ymin == y:
                     v = square.color_number
@@ -123,14 +126,14 @@ def rotate_squares(squares):
 
     for x in range(ymax - ymin + 1):
         for y in range(xmax - xmin + 1):
-            if array2d[x][y] != 7:
+            if array2d[x][y] != 8:
                 array2.append(Square(array2d[x][y], x+xmin, y+ymin))
 
     return array2
 
 def load_textures():
     """
-    Return an array of 7 colored block textures + 1 background.
+    Return an array of 8 colored block textures + 1 background.
     """
     import pygame;
     red = pygame.image.load("textures/red_square.png")
@@ -141,7 +144,8 @@ def load_textures():
     purple = pygame.image.load("textures/purple_square.png")
     orange = pygame.image.load("textures/orange_square.png")
     background = pygame.image.load("textures/background.png")
-    return [red, blue, green, yellow, cyan, purple, orange, background]
+    raimbow = pygame.image.load("textures/raimbow_square.png")
+    return [red, blue, green, yellow, cyan, purple, orange, raimbow, background]
 
 def delete_completed_lines(grid):
     """
@@ -154,7 +158,7 @@ def delete_completed_lines(grid):
 
     for x in range(10):
         for y in range(20):
-            if total_line_values[y] and grid[x][y].get_color() == 7:
+            if total_line_values[y] and grid[x][y].get_color() == 8:
                 total_line_values[y] = False
 
     go_down_numbers = []
@@ -174,7 +178,7 @@ def delete_completed_lines(grid):
         if total_line_values[y]:
             for x in range(10):
                 grid[x].pop(y)
-                grid[x].insert(0, Square(7,x,0))
+                grid[x].insert(0, Square(8,x,0))
 
     return grid
 
@@ -185,6 +189,7 @@ textures = load_textures()
 grid = []
 falling = generate_square()
 timer = time.time()
+
 for x in range(10):
     temp = []
     for y in range(20):
@@ -200,6 +205,7 @@ window = pygame.display.set_mode((50*10+50*7, 50*20))
 print("Starting loop")
 ingame = True
 last_move_date=time.time()
+
 while ingame:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -231,7 +237,7 @@ while ingame:
     grid = delete_completed_lines(grid)
 
     window.fill((0,0,0))
-    window.blit(textures[7], (0,0))
+    window.blit(textures[8], (0,0))
     display_grid(window, textures, grid)
     display_squares(window, textures, falling)
     pygame.display.flip()

@@ -2,7 +2,7 @@
     """
     A class representing a square.
     """
-    color_number = 7
+    color_number = 8
     x = 0
     y = 0
 
@@ -17,7 +17,8 @@
             4 => cyan,
             5 => purple,
             6 => orange,
-            7 => empty
+            7 => raimbow,
+            8 => empty
         """
         self.color_number = color_number
         self.x = x
@@ -30,11 +31,15 @@
         """
         Display the square.
         """
-        if self.color_number < 7 and self.color_number >= 0:
+        if self.color_number < 8 and self.color_number >= 0:
+
             window.blit(textures[self.color_number], (50+self.x*50, self.y*50))
 
     def get_color(self):
         return self.color_number
+
+    def set_color(self, color):
+        self.color_number = color
 
     def can_move(self, grid, direction):
         """
@@ -47,19 +52,19 @@
         """
         if direction == 0:
             if self.x >= 0 and self.x < 10 and self.y >= 0 and self.y < 20:
-                if grid[self.x][self.y + 1].get_color() == 7:
+                if grid[self.x][self.y + 1].get_color() == 8:
                     return True
         elif direction == 1:
             if self.y < 19:
-                if grid[self.x][self.y + 1].get_color() == 7:
+                if grid[self.x][self.y + 1].get_color() == 8:
                     return True
         elif direction == 2:
             if self.x > 0:
-                if grid[self.x - 1][self.y].get_color() == 7:
+                if grid[self.x - 1][self.y].get_color() == 8:
                     return True
         else:
             if self.x < 9:
-                if grid[self.x + 1][self.y].get_color() == 7:
+                if grid[self.x + 1][self.y].get_color() == 8:
                     return True
         return False
 

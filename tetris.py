@@ -65,7 +65,7 @@ def generate_square():
                 [][][]
 
     """
-    from random import randrange 
+    from random import randrange
 
     choice = randrange(0,6)
 
@@ -143,6 +143,41 @@ def load_textures():
     background = pygame.image.load("textures/background.png")
     return [red, blue, green, yellow, cyan, purple, orange, background]
 
+def delete_completed_lines(grid):
+    """
+    Delete completed lines on the grid.
+    """
+
+    total_line_values = []
+    for y in range(20):
+        total_line_values.append(True)
+
+    for x in range(10):
+        for y in range(20):
+            if total_line_values[y] and grid[x][y].get_color() == 7:
+                total_line_values[y] = False
+
+    go_down_numbers = []
+    for y in range(20):
+        number = 0
+        for y2 in range(y, 20):
+            if total_line_values[y2]:
+                number += 1
+        go_down_numbers.append(number)
+
+    for y in range(20):
+        for x in range(10):
+            for i in range(go_down_numbers[y]):
+                grid[x][y].move(1)
+
+    for y in range(20):
+        if total_line_values[y]:
+            for x in range(10):
+                grid[x].pop(y)
+                grid[x].insert(0, Square(7,x,0))
+
+    return grid
+
 import time
 
 print("Loading texture")
@@ -192,6 +227,8 @@ while ingame:
         else:
             grid = put_squares_on_grid(grid, falling)
             falling = generate_square()
+
+    grid = delete_completed_lines(grid)
 
     window.fill((0,0,0))
     window.blit(textures[7], (0,0))

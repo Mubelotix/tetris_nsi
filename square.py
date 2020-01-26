@@ -51,19 +51,19 @@
             _ => Right
         """
         if direction == 0:
-            if self.x >= 0 and self.x < 10 and self.y >= 0 and self.y < 20:
-                if grid[self.x][self.y + 1].get_color() == 8:
+            if self.x >= 0 and self.x <= 9 and self.y >= 0 and self.y <= 19:
+                if grid[self.x][self.y].get_color() == 8:
                     return True
         elif direction == 1:
-            if self.y < 19:
+            if self.x >= 0 and self.x <= 9 and self.y >= 0 and self.y < 19:
                 if grid[self.x][self.y + 1].get_color() == 8:
                     return True
         elif direction == 2:
-            if self.x > 0:
+            if self.x > 0 and self.x <= 9 and self.y >= 0 and self.y <= 19:
                 if grid[self.x - 1][self.y].get_color() == 8:
                     return True
         else:
-            if self.x < 9:
+            if self.x >= 0 and self.x < 9 and self.y >= 0 and self.y <= 19:
                 if grid[self.x + 1][self.y].get_color() == 8:
                     return True
         return False

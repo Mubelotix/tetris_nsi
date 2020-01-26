@@ -204,12 +204,21 @@ def delete_completed_lines(grid):
 
     return (grid, number)
 
+def get_displayable_next_falling_squares(squares):
+    for _i in range(8):
+        squares = move_squares(squares, 3)
+    squares = move_squares(squares, 1)
+    return squares
+
 import time
+from copy import deepcopy
 
 print("Loading texture")
 textures = load_textures()
 grid = []
 falling = generate_square()
+next_falling = generate_square()
+displayable_next_falling = get_displayable_next_falling_squares(deepcopy(next_falling))
 timer = time.time()
 
 for x in range(10):
@@ -254,7 +263,9 @@ while ingame:
             move_squares(falling, 1)
         else:
             grid = put_squares_on_grid(grid, falling)
-            falling = generate_square()
+            falling = next_falling
+            next_falling = generate_square()
+            displayable_next_falling = get_displayable_next_falling_squares(deepcopy(next_falling))
 
     (grid, number_of_deleted_lines) = delete_completed_lines(grid)
 
@@ -262,6 +273,7 @@ while ingame:
     window.blit(textures[8], (0,0))
     display_grid(window, textures, grid)
     display_squares(window, textures, falling)
+    display_squares(window, textures, displayable_next_falling)
     pygame.display.flip()
 
 print("Exiting")

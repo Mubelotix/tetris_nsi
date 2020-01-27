@@ -39,24 +39,29 @@ def display_squares(window, textures, squares):
     for square in squares:
         square.display(window, textures)
 
-def score(number_of_deleted_lines, level):
+def score(number_of_deleted_lines):
     """
     n is the level
            1 Line          2 Line          3 Line          4 Line
     n	40 * (n + 1)	100 * (n + 1)	300 * (n + 1)	1200 * (n + 1)
 
     """
+    memory = memory + number_of_deleted_lines
+    if level*10 <= memory:
+        level = level + 1
+        memory = 0
+
     if 1 == number_of_deleted_lines:
-        score = 40*(level+1)
+        score = score + 40*(level+1)
         return score
     elif 2 == number_of_deleted_lines:
-        score = 100*(level+1)
+        score = score + 100*(level+1)
         return score
     elif 3 == number_of_deleted_lines:
-        score = 300*(level+1)
+        score = score + 300*(level+1)
         return score
     elif 4 == number_of_deleted_lines:
-        score = 1200*(level+1)
+        score = score + 1200*(level+1)
         return score
 
 def generate_square():

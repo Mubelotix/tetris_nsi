@@ -215,17 +215,10 @@ from copy import deepcopy
 
 print("Loading texture")
 textures = load_textures()
-grid = []
 falling = generate_square()
 next_falling = generate_square()
 displayable_next_falling = get_displayable_next_falling_squares(deepcopy(next_falling))
 timer = time.time()
-
-for x in range(10):
-    temp = []
-    for y in range(20):
-        temp.append(Square(8,x,y))
-    grid.append(temp)
 
 print("Creating window")
 import pygame
@@ -233,6 +226,21 @@ import time
 pygame.init()
 window = pygame.display.set_mode((50*10+50*7, 50*20))
 pygame.key.set_repeat(103)
+
+grid = []
+for x in range(10):
+    temp = []
+    for y in range(20):
+        temp.append(Square(7,x,y))
+    grid.append(temp)
+
+for y in range(20):
+    for x in range(10):
+        grid[x][y] = Square(8,x,y)
+    window.fill((0,0,0))
+    window.blit(textures[8], (0,0))
+    display_grid(window, textures, grid)
+    pygame.display.flip()
 
 print("Starting loop")
 ingame = True
@@ -276,13 +284,6 @@ while ingame:
                     for y in range(20):
                         temp.append(Square(8,x,y))
                     grid.append(temp)
-
-                colored_grid = []
-                for x in range(10):
-                    temp = []
-                    for y in range(20):
-                        temp.append(Square(7,x,y))
-                    colored_grid.append(temp)
 
                 for y in range(20):
                     for x in range(10):

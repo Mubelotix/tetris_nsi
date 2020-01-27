@@ -39,6 +39,26 @@ def display_squares(window, textures, squares):
     for square in squares:
         square.display(window, textures)
 
+def score(number_of_deleted_lines, level):
+    """
+    n is the level
+           1 Line          2 Line          3 Line          4 Line
+    n	40 * (n + 1)	100 * (n + 1)	300 * (n + 1)	1200 * (n + 1)
+
+    """
+    if 1 == number_of_deleted_lines:
+        score = 40*(level+1)
+        return score
+    elif 2 == number_of_deleted_lines:
+        score = 100*(level+1)
+        return score
+    elif 3 == number_of_deleted_lines:
+        score = 300*(level+1)
+        return score
+    elif 4 == number_of_deleted_lines:
+        score = 1200*(level+1)
+        return score
+
 def generate_square():
     """
     Randomly generate a piece from the list below:
@@ -184,12 +204,21 @@ def delete_completed_lines(grid):
 
     return (grid, number)
 
+def get_displayable_next_falling_squares(squares):
+    for _i in range(8):
+        squares = move_squares(squares, 3)
+    squares = move_squares(squares, 1)
+    return squares
+
 import time
+from copy import deepcopy
 
 print("Loading texture")
 textures = load_textures()
 grid = []
 falling = generate_square()
+next_falling = generate_square()
+displayable_next_falling = get_displayable_next_falling_squares(deepcopy(next_falling))
 timer = time.time()
 
 for x in range(10):
@@ -235,7 +264,9 @@ while ingame:
             move_squares(falling, 1)
         else:
             grid = put_squares_on_grid(grid, falling)
-            falling = generate_square()
+            falling = next_falling
+            next_falling = generate_square()
+            displayable_next_falling = get_displayable_next_falling_squares(deepcopy(next_falling))
 
     (grid, number_of_deleted_lines) = delete_completed_lines(grid)
 
@@ -243,6 +274,7 @@ while ingame:
     window.blit(textures[8], (0,0))
     display_grid(window, textures, grid)
     display_squares(window, textures, falling)
+    display_squares(window, textures, displayable_next_falling)
     pygame.display.flip()
 
 print("Exiting")

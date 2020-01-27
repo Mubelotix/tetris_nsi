@@ -39,7 +39,7 @@ def display_squares(window, textures, squares):
     for square in squares:
         square.display(window, textures)
 
-def score(number_of_deleted_lines,score,memory):
+def score(number_of_deleted_lines):
     """
     n is the level
            1 Line          2 Line          3 Line          4 Line

@@ -224,7 +224,7 @@ timer = time.time()
 for x in range(10):
     temp = []
     for y in range(20):
-        temp.append(Square(7,x,y))
+        temp.append(Square(8,x,y))
     grid.append(temp)
 
 print("Creating window")
@@ -267,15 +267,42 @@ while ingame:
             falling = next_falling
             next_falling = generate_square()
             displayable_next_falling = get_displayable_next_falling_squares(deepcopy(next_falling))
+            if can_squares_move(grid, falling, 0) == False:
+                print("game over")
+                ingame = 0
+                grid = []
+                for x in range(10):
+                    temp = []
+                    for y in range(20):
+                        temp.append(Square(8,x,y))
+                    grid.append(temp)
 
-    (grid, number_of_deleted_lines) = delete_completed_lines(grid)
+                colored_grid = []
+                for x in range(10):
+                    temp = []
+                    for y in range(20):
+                        temp.append(Square(7,x,y))
+                    colored_grid.append(temp)
 
-    window.fill((0,0,0))
-    window.blit(textures[8], (0,0))
-    display_grid(window, textures, grid)
-    display_squares(window, textures, falling)
-    display_squares(window, textures, displayable_next_falling)
-    pygame.display.flip()
+                for y in range(20):
+                    for x in range(10):
+                        grid[x][y] = Square(7,x,y)
+                    window.fill((0,0,0))
+                    window.blit(textures[8], (0,0))
+                    display_grid(window, textures, grid)
+                    pygame.display.flip()
+
+                pygame.quit()
+
+    if ingame:
+        (grid, number_of_deleted_lines) = delete_completed_lines(grid)
+
+        window.fill((0,0,0))
+        window.blit(textures[8], (0,0))
+        display_grid(window, textures, grid)
+        display_squares(window, textures, falling)
+        display_squares(window, textures, displayable_next_falling)
+        pygame.display.flip()
 
 print("Exiting")
 pygame.quit()

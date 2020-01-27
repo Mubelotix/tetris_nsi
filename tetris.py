@@ -39,29 +39,24 @@ def display_squares(window, textures, squares):
     for square in squares:
         square.display(window, textures)
 
-def score(number_of_deleted_lines):
+def score(number_of_deleted_lines, level):
     """
     n is the level
            1 Line          2 Line          3 Line          4 Line
     n	40 * (n + 1)	100 * (n + 1)	300 * (n + 1)	1200 * (n + 1)
 
     """
-    memory = memory + number_of_deleted_lines
-    if level*10 <= memory:
-        level = level + 1
-        memory = 0
-
     if 1 == number_of_deleted_lines:
-        score = score + 40*(level+1)
+        score = 40*(level+1)
         return score
     elif 2 == number_of_deleted_lines:
-        score = score + 100*(level+1)
+        score = 100*(level+1)
         return score
     elif 3 == number_of_deleted_lines:
-        score = score + 300*(level+1)
+        score = 300*(level+1)
         return score
     elif 4 == number_of_deleted_lines:
-        score = score + 1200*(level+1)
+        score = 1200*(level+1)
         return score
 
 def generate_square():
@@ -219,6 +214,9 @@ import time
 from copy import deepcopy
 
 print("Loading texture")
+import pygame
+lines_cleared = 0
+score = 0
 textures = load_textures()
 falling = generate_square()
 next_falling = generate_square()
@@ -226,12 +224,14 @@ displayable_next_falling = get_displayable_next_falling_squares(deepcopy(next_fa
 timer = time.time()
 
 print("Creating window")
-import pygame
 import time
 pygame.init()
+font = pygame.font.Font("textures/police.ttf", 60)
+text = font.render("454", True, (50, 75, 50))
 window = pygame.display.set_mode((50*10+50*7, 50*20))
 pygame.key.set_repeat(103)
 
+print("Initializing game")
 grid = []
 for x in range(10):
     temp = []
@@ -302,9 +302,15 @@ while ingame:
 
     if ingame:
         (grid, number_of_deleted_lines) = delete_completed_lines(grid)
+        lines_cleared += number_of_deleted_lines
+
+        text = font.render(str(lines_cleared), True, (0, 0, 0))
+        text2 = font.render(str(score), True, (0, 0, 0))
 
         window.fill((0,0,0))
         window.blit(textures[8], (0,0))
+        window.blit(text, (675, 440))
+        window.blit(text2, (675, 555))
         display_grid(window, textures, grid)
         display_squares(window, textures, falling)
         display_squares(window, textures, displayable_next_falling)

@@ -39,30 +39,28 @@ def display_squares(window, textures, squares):
     for square in squares:
         square.display(window, textures)
 
-def score(number_of_deleted_lines):
+def score(number_of_deleted_lines,score):
     """
     n is the level
            1 Line          2 Line          3 Line          4 Line
     n	40 * (n + 1)	100 * (n + 1)	300 * (n + 1)	1200 * (n + 1)
 
     """
-    memory = memory + number_of_deleted_lines
-    if level*10 <= memory:
-        level = level + 1
-        memory = 0
-
+    level = 1
+    memory = 0
     if 1 == number_of_deleted_lines:
-        score = score + 40*(level+1)
-        return score
+        memory += 40*(level+1)
     elif 2 == number_of_deleted_lines:
-        score = score + 100*(level+1)
-        return score
+        memory +=  100*(level+1)
     elif 3 == number_of_deleted_lines:
-        score = score + 300*(level+1)
-        return score
+        memory +=  300*(level+1)
     elif 4 == number_of_deleted_lines:
-        score = score + 1200*(level+1)
-        return score
+        memory +=  1200*(level+1)
+    return score + memory
+
+def level(lines_cleared,require):
+    pass
+
 
 def generate_square():
     """
@@ -221,7 +219,7 @@ from copy import deepcopy
 print("Loading texture")
 import pygame
 lines_cleared = 0
-score = 0
+tempory_score = 0
 textures = load_textures()
 falling = generate_square()
 next_falling = generate_square()
@@ -308,9 +306,10 @@ while ingame:
     if ingame:
         (grid, number_of_deleted_lines) = delete_completed_lines(grid)
         lines_cleared += number_of_deleted_lines
+        tempory_score = score(number_of_deleted_lines,tempory_score)
 
         text = font.render(str(lines_cleared), True, (0, 0, 0))
-        text2 = font.render(str(score), True, (0, 0, 0))
+        text2 = font.render(str(tempory_score), True, (0, 0, 0))
 
         window.fill((0,0,0))
         window.blit(textures[8], (0,0))

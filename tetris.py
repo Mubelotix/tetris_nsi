@@ -132,27 +132,18 @@ def rotate_squares(squares):
         if square.y > ymax:
             ymax = square.y
 
-    array2d = []
-    for x in range(xmax - xmin + 1):
-        temp = []
-        for y in range(ymax - ymin + 1):
-            v = 8
-            for square in squares:
-                if square.x - xmin == x and square.y - ymin == y:
-                    v = square.color_number
-            temp.append(v)
-        array2d.append(temp)
+    squares2 = []
+    for square in squares:
+        (color, xavant, yavant) = (square.get_color(), square.x, square.y)
+        xavant -= xmin
+        yavant -= ymin
+        yapres = xavant
+        xapres = (xmax - xmin) - yavant
+        xapres += xmin
+        yapres += ymin
+        squares2.append(Square(color, xapres, yapres))
 
-    array2d = list(zip(*array2d[::-1]))
-
-    array2 = []
-
-    for x in range(ymax - ymin + 1):
-        for y in range(xmax - xmin + 1):
-            if array2d[x][y] != 8:
-                array2.append(Square(array2d[x][y], x+xmin, y+ymin))
-
-    return array2
+    return squares2
 
 def load_textures():
     """

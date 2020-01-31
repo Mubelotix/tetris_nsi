@@ -31,11 +31,17 @@ def move_squares(squares, direction):
     return squares
 
 def put_squares_on_grid(grid, squares):
+    """
+    add the square in the grid
+    """
     for square in squares:
         grid = square.put_on_grid(grid)
     return grid
 
 def display_squares(window, textures, squares):
+    """
+    display the square on the screen
+    """
     for square in squares:
         square.display(window, textures)
 
@@ -46,20 +52,30 @@ def score(number_of_deleted_lines,score):
     n	40 * (n + 1)	100 * (n + 1)	300 * (n + 1)	1200 * (n + 1)
 
     """
-    level = 1
     memory = 0
     if 1 == number_of_deleted_lines:
-        memory += 40*(level+1)
+        memory = 40 * level(number_of_deleted_lines,require,actual_level)
     elif 2 == number_of_deleted_lines:
-        memory +=  100*(level+1)
+        memory = 100 * level(number_of_deleted_lines,require,actual_level)
     elif 3 == number_of_deleted_lines:
-        memory +=  300*(level+1)
+        memory =  300 * level(number_of_deleted_lines,require,actual_level)
     elif 4 == number_of_deleted_lines:
-        memory +=  1200*(level+1)
+        memory =  1200 * level(number_of_deleted_lines,require,actual_level)
     return score + memory
 
-def level(lines_cleared,require):
-    pass
+def level(lines_cleared,require,actual_level):
+    """
+    defind the level, the level pass is : level * 10
+    """
+    temps_lines_cleared = lines_cleared
+    require = actual_level *10
+    if temps_lines_cleared == require:
+        temps_lines_cleared = 0
+        actual_level =+ 1
+        return actual_level
+    else :
+        return actual_level
+        print(require)
 
 
 def generate_square():
@@ -117,6 +133,9 @@ def generate_square():
         return [Square(choice, 5,0)]
 
 def rotate_squares(squares):
+    """
+    use to rotate the square right
+    """
     xmin = 10
     xmax = 0
     ymin = 20
@@ -211,6 +230,8 @@ print("Loading texture")
 import pygame
 lines_cleared = 0
 tempory_score = 0
+require = 1
+actual_level = 1
 textures = load_textures()
 falling = generate_square()
 next_falling = generate_square()
@@ -298,14 +319,18 @@ while ingame:
         (grid, number_of_deleted_lines) = delete_completed_lines(grid)
         lines_cleared += number_of_deleted_lines
         tempory_score = score(number_of_deleted_lines,tempory_score)
+        level_display = level(lines_cleared,require,actual_level)
 
         text = font.render(str(lines_cleared), True, (0, 0, 0))
         text2 = font.render(str(tempory_score), True, (0, 0, 0))
+        text3 = font.render(str(level_display), True, (0, 0, 0))
 
         window.fill((0,0,0))
         window.blit(textures[8], (0,0))
+        window.blit(text3, (675, 320))
         window.blit(text, (675, 440))
         window.blit(text2, (675, 555))
+
         display_grid(window, textures, grid)
         display_squares(window, textures, falling)
         display_squares(window, textures, displayable_next_falling)

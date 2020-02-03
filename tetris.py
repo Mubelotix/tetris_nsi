@@ -68,14 +68,14 @@ def level(lines_cleared,require,actual_level):
     defind the level, the level pass is : level * 10
     """
     temps_lines_cleared = lines_cleared
-    require = actual_level *10
-    if temps_lines_cleared == require:
+    require = actual_level * 10
+    if temps_lines_cleared >= require:
         temps_lines_cleared = 0
-        actual_level =+ 1
+        actual_level += 1
         return actual_level
     else :
         return actual_level
-        print(require)
+
 
 
 def generate_square():

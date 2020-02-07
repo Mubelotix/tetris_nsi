@@ -313,7 +313,7 @@ while ingame:
                     move_squares(falling, 1)
 
     now = time.time()
-    if now - timer > 1-level(lines_cleared)*0.1:
+    if now - timer > 0.8-level(lines_cleared)*0.08:
         timer = now
         if can_squares_move(grid, falling, 1):
             move_squares(falling, 1)

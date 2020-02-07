@@ -73,7 +73,7 @@ def display_squares(window, textures, squares):
     for square in squares:
         square.display(window, textures)
 
-def score(number_of_deleted_lines, score):
+def score(number_of_deleted_lines, score, level_number):
     """
     Parameters:
         number_of_deleted_lines: number of deleted lines (not the total)
@@ -84,29 +84,26 @@ def score(number_of_deleted_lines, score):
     """
     memory = 0
     if 1 == number_of_deleted_lines:
-        memory = 40 * level(number_of_deleted_lines,require,actual_level)
+        memory = 40 * level_number
     elif 2 == number_of_deleted_lines:
-        memory = 100 * level(number_of_deleted_lines,require,actual_level)
+        memory = 100 * level_number
     elif 3 == number_of_deleted_lines:
-        memory =  300 * level(number_of_deleted_lines,require,actual_level)
+        memory =  300 * level_number
     elif 4 == number_of_deleted_lines:
-        memory =  1200 * level(number_of_deleted_lines,require,actual_level)
+        memory =  1200 * level_number
     return score + memory
 
-def level(lines_cleared,require,actual_level):
+def level(lines_cleared):
     """
-    defind the level, the level pass is : level * 10
     """
-    temps_lines_cleared = lines_cleared
-    require = actual_level * 10
-    if temps_lines_cleared >= require:
-        temps_lines_cleared = 0
-        actual_level += 1
-        return actual_level
-    else :
-        return actual_level
-
-
+    needed = 4
+    progression = 8
+    level = 1
+    while lines_cleared >= needed:
+        needed += progression
+        progression += 4
+        level += 1
+    return level
 
 def generate_square():
     """
@@ -316,7 +313,7 @@ while ingame:
                     move_squares(falling, 1)
 
     now = time.time()
-    if now - timer > 1:
+    if now - timer > 1-level(lines_cleared)*0.1:
         timer = now
         if can_squares_move(grid, falling, 1):
             move_squares(falling, 1)
@@ -348,8 +345,8 @@ while ingame:
     if ingame:
         (grid, number_of_deleted_lines) = delete_completed_lines(grid)
         lines_cleared += number_of_deleted_lines
-        tempory_score = score(number_of_deleted_lines,tempory_score)
-        level_display = level(lines_cleared,require,actual_level)
+        tempory_score = score(number_of_deleted_lines,tempory_score, level(lines_cleared))
+        level_display = level(lines_cleared)
 
         text = font.render(str(lines_cleared), True, (0, 0, 0))
         text2 = font.render(str(tempory_score), True, (0, 0, 0))

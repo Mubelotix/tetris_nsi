@@ -2,7 +2,12 @@ from square import *
 
 def display_grid(window, textures, grid):
     """
-    Draw every squares of the grid to the window.
+    Parameters:
+        window: a pygame window
+        textures: array of pygame images
+        grid: tab of Square objects (dimensions 20*10)
+
+    Draw the grid on the window.
     """
     for x in range(10):
         for y in range(20):
@@ -10,9 +15,13 @@ def display_grid(window, textures, grid):
 
 def can_squares_move(grid, squares, direction):
     """
-    Take the grid, an array of squares and a direction number.
-    Direction is number 1 for down, 2 for for left and 3 for right.
-    Return true if every square is able to move in the direction.
+    Parameters:
+        grid: tab of Square objects (dimensions 20*10)
+        squares: array of Square objects
+        direction: number (1 for down, 2 for for left and 3 for right)
+
+    Return:
+        True if every square is able to move in the direction.
     """
     for square in squares:
         if square.can_move(grid, direction) == False:
@@ -21,10 +30,16 @@ def can_squares_move(grid, squares, direction):
 
 def move_squares(squares, direction):
     """
-    Take the grid, an array of squares and a direction number.
-    Direction is number 0 for no movement, 1 for down, 2 for for left and 3 for right.
-    Squares will be moved in the array, the actualised array will be returned.
-    THE MOVE MUST BE POSSIBLE, NO CHECK IN THIS FUNCTION.
+    Parameters:
+        grid: tab of Square objects (dimensions 20*10)
+        squares: array of Square objects
+        direction: number (1 for down, 2 for for left and 3 for right)
+
+    Move the squares.
+    May return invalid coordinates.
+
+    Return:
+        The array of squares, actualized with new coordinates.
     """
     for square in squares:
         square.move(direction)
@@ -32,7 +47,15 @@ def move_squares(squares, direction):
 
 def put_squares_on_grid(grid, squares):
     """
-    add the square in the grid
+    Parameters:
+        grid: tab of Square objects (dimensions 20*10)
+        squares: array of Square objects
+
+    Applies squares on the grid.
+    Override the old squares on the grid.
+
+    Return:
+        The actualized grid.
     """
     for square in squares:
         grid = square.put_on_grid(grid)
@@ -40,17 +63,24 @@ def put_squares_on_grid(grid, squares):
 
 def display_squares(window, textures, squares):
     """
-    display the square on the screen
+    Parameters:
+        window: a pygame window
+        textures: array of pygame images
+        squares: array of Square objects
+
+    Display squares on the window using textures.
     """
     for square in squares:
         square.display(window, textures)
 
-def score(number_of_deleted_lines,score):
+def score(number_of_deleted_lines, score):
     """
-    n is the level
-           1 Line          2 Line          3 Line          4 Line
-    n	40 * (n + 1)	100 * (n + 1)	300 * (n + 1)	1200 * (n + 1)
+    Parameters:
+        number_of_deleted_lines: number of deleted lines (not the total)
+        score: the score
 
+    Return:
+        Actualized value of the score.
     """
     memory = 0
     if 1 == number_of_deleted_lines:
